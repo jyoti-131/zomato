@@ -1,0 +1,699 @@
+/* Updated Zomato-inspired styling - Matched to Official Website */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Updated color scheme to match official Zomato */
+    --zomato-red: #E23744;
+    --zomato-red-light: #E23744; /* Main brand color */
+    --zomato-red-dark: #CB202D;
+    --zomato-green: #267E3E;
+    --zomato-text: #1C1C1C; /* Darker text for better contrast */
+    --zomato-text-light: #696969; /* Lighter gray for secondary text */
+    --zomato-border: #F0F0F0;
+    --zomato-bg-light: #F8F8F8;
+    --zomato-card-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* Closer to Zomato's custom font */
+    background-color: #F8F8F8;
+    margin: 0;
+    padding: 0;
+    color: var(--zomato-text);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 900px; /* Wider container to match Zomato's responsive design */
+    margin: 40px auto;
+    background-color: #FFF;
+    padding: 24px;
+    border-radius: 8px; /* Zomato uses more subtle rounded corners */
+    box-shadow: var(--zomato-card-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    color: var(--zomato-text);
+    margin-bottom: 30px;
+    font-weight: 700; /* Bolder headers on Zomato */
+    font-size: 24px;
+    position: relative;
+}
+
+h1::before {
+    content: ""; /* Remove emoji - Zomato uses custom icons instead */
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--zomato-text);
+    font-size: 14px;
+    letter-spacing: 0.2px;
+}
+
+select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--zomato-border);
+    border-radius: 8px; /* Zomato uses more subtle corners */
+    font-size: 14px;
+    background-color: #FFF;
+    color: var(--zomato-text);
+    font-family: 'Inter', sans-serif;
+    box-shadow: none; /* Zomato inputs have minimal shadow */
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 14px;
+    transition: all 0.2s ease;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--zomato-red-light);
+    box-shadow: 0 0 0 2px rgba(226, 55, 68, 0.1);
+}
+
+.find-meal-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background-color: var(--zomato-red-light);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(226, 55, 68, 0.2);
+    margin-top: 10px;
+    font-family: 'Inter', sans-serif;
+    text-transform: none; /* Zomato doesn't use uppercase text */
+    letter-spacing: 0.3px;
+}
+
+.find-meal-btn:hover {
+    background-color: var(--zomato-red-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(226, 55, 68, 0.25);
+}
+
+.find-meal-btn:active {
+    transform: translateY(0);
+}
+
+/* Remove pulsing animation - Zomato doesn't use this effect */
+.find-meal-btn {
+    animation: none;
+}
+
+.results {
+    margin-top: 30px;
+    padding: 15px 0;
+    position: relative;
+}
+
+.results h2 {
+    color: var(--zomato-text);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--zomato-border);
+}
+
+.meal-suggestions {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.meal-suggestions li {
+    margin-bottom: 16px;
+    padding: 16px;
+    background-color: #FFF;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid #F0F0F0;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
+    position: relative;
+}
+
+/* Update icon to match Zomato */
+.meal-suggestions li:before {
+    content: "";
+    margin-right: 16px;
+    width: 48px;
+    height: 48px;
+    background-color: #F8F8F8;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.meal-suggestions li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    border-color: #F0F0F0;
+}
+
+/* Updated rating style to match Zomato */
+.rating {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    background-color: #267E3E; /* Zomato's green for high ratings */
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: auto;
+}
+
+.rating::before {
+    content: "★";
+    margin-right: 3px;
+    font-size: 11px;
+}
+
+/* Cost indicator matching Zomato style */
+.cost-indicator {
+    display: inline-block;
+    color: var(--zomato-text-light);
+    font-size: 13px;
+    margin-left: 10px;
+    font-weight: 400;
+}
+
+/* Updated cuisine tag to match Zomato */
+.cuisine-tag {
+    display: inline-block;
+    color: var(--zomato-text-light);
+    font-size: 12px;
+    margin-left: 10px;
+    font-weight: 400;
+    border-left: 1px solid #E8E8E8;
+    padding-left: 10px;
+}
+
+/* Quick view button styling update */
+.quick-view {
+    position: absolute;
+    bottom: -8px;
+    right: 16px;
+    background-color: white;
+    border: 1px solid #F0F0F0;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--zomato-red-light);
+    opacity: 0;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.meal-suggestions li:hover .quick-view {
+    opacity: 1;
+    bottom: -12px;
+}
+
+/* Responsive styles */
+@media (max-width: 650px) {
+    .container {
+        margin: 15px 12px;
+        padding: 20px 16px;
+    }
+    
+    h1 {
+        font-size: 22px;
+    }
+    
+    .meal-suggestions li {
+        padding: 14px;
+    }
+    
+    .rating {
+        font-size: 11px;
+        padding: 2px 5px;
+    }
+}
+
+/* Empty state styling updated */
+.empty-state {
+    text-align: center;
+    padding: 25px 0;
+    color: var(--zomato-text-light);
+}
+
+.empty-state img {
+    width: 80px;
+    margin-bottom: 15px;
+    opacity: 0.6;
+}
+
+/* Feature pill updated to match Zomato */
+.feature-pill {
+    display: inline-block;
+    background-color: rgba(226, 55, 68, 0.1);
+    color: var(--zomato-red-light);
+    border: none;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+/* Updated loader animation to match Zomato */
+.loader {
+    text-align: center;
+    padding: 25px 0;
+}
+
+.loader::after {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(226, 55, 68, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--zomato-red-light);
+    animation: spin 0.8s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Restaurant Modal Styles Updated */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #FFF;
+    margin: 8% auto;
+    padding: 24px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    animation: modalFade 0.25s ease-in-out;
+}
+
+@keyframes modalFade {
+    from {opacity: 0; transform: translateY(-10px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.close-modal {
+    color: #999;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.close-modal:hover {
+    color: #555;
+}
+
+/* Restaurant list styling updated */
+.restaurant-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.restaurant-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    background-color: #FFF;
+    border: 1px solid #F0F0F0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.restaurant-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.restaurant-info {
+    flex: 1;
+}
+
+.restaurant-name {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+    color: var(--zomato-text);
+}
+
+.restaurant-meta {
+    display: flex;
+    align-items: center;
+    color: var(--zomato-text-light);
+    font-size: 13px;
+}
+
+.restaurant-meta span {
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+}
+
+/* Updated restaurant rating styling */
+.restaurant-rating {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    color: #FFF;
+    font-size: 12px;
+    text-align: center;
+    min-width: 32px;
+}
+
+.restaurant-rating::before {
+    content: "★";
+    margin-right: 2px;
+    font-size: 10px;
+}
+
+.high-rating {
+    background-color: #267E3E;
+}
+
+.medium-rating {
+    background-color: #DB7C38;
+}
+
+.low-rating {
+    background-color: #CB202D; 
+}
+
+/* Loading state styling */
+.loading {
+    text-align: center;
+    margin: 20px 0;
+    color: var(--zomato-text-light);
+    font-size: 14px;
+}
+
+/* Explore button updated */
+.explore-btn {
+    background-color: #FFF;
+    color: var(--zomato-red-light);
+    border: 1px solid var(--zomato-red-light);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.explore-btn:hover {
+    background-color: rgba(226, 55, 68, 0.05);
+}
+
+/* Delivery Time - New element from Zomato */
+.delivery-time {
+    display: inline-flex;
+    align-items: center;
+    color: var(--zomato-text);
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 12px;
+}
+
+.delivery-time::before {
+    content: "🕒";
+    margin-right: 4px;
+    font-size: 10px;
+}
+
+/* Offers tag - Common on Zomato */
+.offer-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #FAF2EA;
+    color: #D68422;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.offer-tag::before {
+    content: "🏷️";
+    margin-right: 4px;
+    font-size: 10px;
+}
+
+/* Vegetarian indicator */
+.veg-indicator {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #0F8A65;
+    border-radius: 2px;
+    position: relative;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.veg-indicator::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: #0F8A65;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Non-veg indicator */
+.non-veg-indicator {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #E43B4F;
+    border-radius: 2px;
+    position: relative;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.non-veg-indicator::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: #E43B4F;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Top picks badge */
+.top-pick {
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    background-color: #E23744;
+    color: white;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(226, 55, 68, 0.2);
+}
+
+/* New header bar to match Zomato */
+.header-bar {
+    background-color: #FFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+
+.logo {
+    height: 26px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #F8F8F8;
+    border-radius: 8px;
+    padding: 8px 16px;
+    width: 300px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.search-bar:focus-within {
+    border-color: #E8E8E8;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    color: var(--zomato-text);
+    font-family: 'Inter', sans-serif;
+}
+
+.search-bar input::placeholder {
+    color: #999;
+}
+
+/* Category pills - common in Zomato */
+.category-pills {
+    display: flex;
+    overflow-x: auto;
+    padding: 8px 0;
+    margin: 16px 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.category-pills::-webkit-scrollbar {
+    display: none;
+}
+
+.category-pill {
+    padding: 8px 16px;
+    background-color: #FFF;
+    border: 1px solid #E8E8E8;
+    border-radius: 30px;
+    margin-right: 12px;
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.category-pill:hover {
+    background-color: #F8F8F8;
+}
+
+.category-pill.active {
+    background-color: rgba(226, 55, 68, 0.1);
+    border-color: rgba(226, 55, 68, 0.2);
+    color: var(--zomato-red-light);
+    font-weight: 500;
+}
+
+/* Footer updated to match Zomato */
+.footer {
+    background-color: #F8F8F8;
+    padding: 40px 0;
+    margin-top: 60px;
+    border-top: 1px solid #E8E8E8;
+}
+
+.footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.footer-logo {
+    height: 28px;
+    margin-bottom: 24px;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px;
+}
+
+.footer-section h4 {
+    color: var(--zomato-text);
+    font-size: 15px;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section li {
+    margin-bottom: 10px;
+}
+
+.footer-section a {
+    color: var(--zomato-text-light);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.footer-section a:hover {
+    color: var(--zomato-red-light);
+}
+
+.copyright {
+    margin-top: 40px;
+    text-align: center;
+    color: var(--zomato-text-light);
+    font-size: 13px;
+    padding-top: 20px;
+    border-top: 1px solid #E8E8E8;
+}

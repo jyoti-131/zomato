@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Zomato</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='restaurant-modal.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="zomato-bg"></div>
+        <h1>What Should I Eat Today?</h1>
+        
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label for="mood"><i class="fas fa-smile"></i> Mood:</label>
+                <select name="mood" id="mood" required>
+                    <option value="Happy" {% if request.form.get('mood') == 'Happy' %}selected{% endif %}>Happy</option>
+                    <option value="Sad" {% if request.form.get('mood') == 'Sad' %}selected{% endif %}>Sad</option>
+                    <option value="Tired" {% if request.form.get('mood') == 'Tired' %}selected{% endif %}>Tired</option>
+                    <option value="Celebrating" {% if request.form.get('mood') == 'Celebrating' %}selected{% endif %}>Celebrating</option>
+                    <option value="Lazy" {% if request.form.get('mood') == 'Lazy' %}selected{% endif %}>Lazy</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="diet"><i class="fas fa-utensils"></i> Diet Preference:</label>
+                <select name="diet" id="diet" required>
+                    <option value="Veg" {% if request.form.get('diet') == 'Veg' %}selected{% endif %}>Vegetarian</option>
+                    <option value="Non-Veg" {% if request.form.get('diet') == 'Non-Veg' %}selected{% endif %}>Non-Vegetarian</option>
+                    <option value="Any" {% if request.form.get('diet') == 'Any' %}selected{% endif %}>Any</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="spice"><i class="fas fa-pepper-hot"></i> Spice Level:</label>
+                <select name="spice" id="spice" required>
+                    <option value="Mild" {% if request.form.get('spice') == 'Mild' %}selected{% endif %}>Mild</option>
+                    <option value="Medium" {% if request.form.get('spice') == 'Medium' %}selected{% endif %}>Medium</option>
+                    <option value="Spicy" {% if request.form.get('spice') == 'Spicy' %}selected{% endif %}>Spicy</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="budget"><i class="fas fa-rupee-sign"></i> Budget:</label>
+                <select name="budget" id="budget" required>
+                    <option value="Under ₹100" {% if request.form.get('budget') == 'Under ₹100' %}selected{% endif %}>Under ₹100</option>
+                    <option value="₹100-200" {% if request.form.get('budget') == '₹100-200' %}selected{% endif %}>₹100-200</option>
+                    <option value="₹200-300" {% if request.form.get('budget') == '₹200-300' %}selected{% endif %}>₹200-300</option>
+                    <option value="₹300+" {% if request.form.get('budget') == '₹300+' %}selected{% endif %}>₹300+</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="location"><i class="fas fa-map-marker-alt"></i> Location (optional):</label>
+                <input type="text" name="location" id="location" placeholder="e.g., Koramangala, Indiranagar" value="{{ request.form.get('location', '') }}">
+            </div>
+            
+            <button type="submit" class="find-meal-btn">Find My Meal</button>
+        </form>
+        
+        {% if meals %}
+        <div class="results">
+            <h2>You might enjoy:</h2>
+            <ul class="meal-suggestions">
+                {% for meal in meals %}
+                <li class="meal-item">
+                    {{ meal }}
+                    <span class="rating">{{ (4.0 + (loop.index0 * 0.1)) | round(1) }}</span>
+                    <button class="explore-btn" onclick="exploreRestaurants('{{ meal }}')">
+                        <i class="fas fa-utensils"></i> Explore
+                    </button>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Restaurant Modal -->
+    <div id="restaurantModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Restaurants serving <span id="foodName"></span></h2>
+            <div id="loadingRestaurants" class="loading" style="display:none;">
+                <i class="fas fa-spinner"></i> Loading restaurants...
+            </div>
+            <div id="restaurantResults">
+                <ul class="restaurant-list" id="restaurantList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple animation effect for selections
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                this.classList.add('selected');
+                setTimeout(() => {
+                    this.classList.remove('selected');
+                }, 300);
+            });
+        });
+        
+        // Pass the location value from form to restaurant search modal
+        function exploreRestaurants(foodName) {
+            // Set food name in modal
+            document.getElementById('foodName').textContent = foodName;
+            
+            // Show modal
+            document.getElementById('restaurantModal').style.display = 'block';
+            
+            // Show loading indicator
+            document.getElementById('loadingRestaurants').style.display = 'block';
+            document.getElementById('restaurantList').innerHTML = '';
+            
+            // Get location if provided
+            const location = document.getElementById('location').value;
+            
+            // Fetch restaurants for this food
+            fetch(`/api/restaurants-for-food?food=${encodeURIComponent(foodName)}&location=${encodeURIComponent(location)}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading indicator
+                    document.getElementById('loadingRestaurants').style.display = 'none';
+                    
+                    // Generate restaurant list
+                    const restaurantList = document.getElementById('restaurantList');
+                    restaurantList.innerHTML = '';
+                    
+                    if (data.restaurants && data.restaurants.length > 0) {
+                        data.restaurants.forEach(restaurant => {
+                            const ratingClass = restaurant.rating >= 4.0 ? 'high-rating' : 'medium-rating';
+                            
+                            const li = document.createElement('li');
+                            li.className = 'restaurant-item';
+                            li.innerHTML = `
+                                <div class="restaurant-info">
+                                    <div class="restaurant-name">${restaurant.name}</div>
+                                    <div class="restaurant-meta">
+                                        <i class="fas fa-map-marker-alt"></i> <span>${restaurant.location}</span>
+                                        <i class="fas fa-rupee-sign"></i> <span>${restaurant.price_range}</span>
+                                    </div>
+                                </div>
+                                <div class="restaurant-rating ${ratingClass}">${restaurant.rating}</div>
+                            `;
+                            restaurantList.appendChild(li);
+                        });
+                    } else {
+                        restaurantList.innerHTML = '<p>No restaurants found for this food item.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching restaurants:', error);
+                    document.getElementById('loadingRestaurants').style.display = 'none';
+                    document.getElementById('restaurantList').innerHTML = 
+                        '<p>Error loading restaurants. Please try again.</p>';
+                });
+        }
+        
+        function closeModal() {
+            document.getElementById('restaurantModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('restaurantModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
